@@ -11,7 +11,7 @@ The data is fully synthetic (fake subscribers, call records and service requests
 
 ## Why this project
 
-Most Fabric tutorials stop at "load data, build a report". In real telecom and fintech environments the harder questions are:
+Most Fabric tutorials stop at "load data, build a report". In real telecom and fintech environments, the harder questions are:
 
 - Can we trust this data? Who checked it, and how?
 - Where are the CNICs and phone numbers, and who can see them?
