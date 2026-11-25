@@ -1,0 +1,12 @@
+# generated data - regenerate with data_generator/gen_telecom_data.py
+telecom_data/
+*.csv
+
+# python
+__pycache__/
+*.pyc
+.venv/
+
+# os
+.DS_Store
+Thumbs.db
