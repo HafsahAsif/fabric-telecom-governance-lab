@@ -27,7 +27,9 @@
 - Quarantine tables for subscribers, CDRs and service requests
 
 **Results**
-- Fill in after running in Fabric (expected: subscribers 4,799 clean / 201 quarantined; cdrs 117,318 / 7,369; service_requests 2,874 / 126)
+- Confirmed in Fabric: subscribers 4,799 clean / 201 quarantined; cdrs 117,318 / 7,369; service_requests 2,874 / 126
+- Silver DQ scorecard: all 5 checks = 0
+- 4,891 CDRs quarantined only because their subscriber was quarantined (integrity cascade)
 
 **Learned**
 - Explicit type casting instead of trusting inferred types (phone numbers lose their leading zero if stored as numbers)
