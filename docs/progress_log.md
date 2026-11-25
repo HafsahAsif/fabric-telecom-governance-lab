@@ -28,6 +28,7 @@
 
 **Results**
 - Confirmed in Fabric: subscribers 4,799 clean / 201 quarantined; cdrs 117,318 / 7,369; service_requests 2,874 / 126
+- ![Bronze vs silver DQ scorecard](screenshots/dq_before_after.png)
 - Silver DQ scorecard: all 5 checks = 0
 - 4,891 CDRs quarantined only because their subscriber was quarantined (integrity cascade)
 
