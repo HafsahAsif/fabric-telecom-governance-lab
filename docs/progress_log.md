@@ -36,3 +36,21 @@
 - Explicit type casting instead of trusting inferred types (phone numbers lose their leading zero if stored as numbers)
 - Quarantine pattern with reason codes
 - Referential integrity checks across tables in Spark
+
+## Day 3 - Gold layer (Warehouse, star schema)
+
+**Built**
+- Warehouse `wh_gold`, with `lh_silver` added for cross-database queries (`lh_silver.dbo.<table>`)
+- Dimensions: `dim_date`, `dim_plan`, `dim_location`, `dim_subscriber`
+- Facts: `fact_usage` (subscriber x day x event type), `fact_service_request` (one row per SR)
+- Built with CTAS in T-SQL: `sql/gold/01_gold_star_schema.sql`
+
+**Results**
+- dim_date 694, dim_plan 7, dim_location 11, dim_subscriber 4,799, fact_usage 110,063, fact_service_request 2,874
+- Reconciliation vs silver: subscribers 4,799 = 4,799; usage events 117,318 = 117,318; SRs 2,874 = 2,874; 0 orphan dates, plans or locations
+
+**Learned**
+- Fabric Warehouse does not support NVARCHAR. DATENAME() returns NVARCHAR, so it needs a CAST to VARCHAR
+- Cross-database queries let a warehouse read lakehouse tables without copying files first
+- Data minimisation in practice: CNIC, email and DOB are not carried into gold. DOB becomes an age band
+- The calendar must start at the earliest date in any table, not just one (caught by the orphan-date check)
