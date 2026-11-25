@@ -54,3 +54,21 @@
 - Cross-database queries let a warehouse read lakehouse tables without copying files first
 - Data minimisation in practice: CNIC, email and DOB are not carried into gold. DOB becomes an age band
 - The calendar must start at the earliest date in any table, not just one (caught by the orphan-date check)
+
+## Day 4 - Pipeline and audit log
+
+**Built**
+- Stored procedures in `wh_gold`: `dbo.usp_build_gold` (gold build) and `dbo.usp_check_gold` (reconciliation, fails with THROW if any check fails)
+- Audit table `dbo.etl_run_log`: every check, every run, with timestamp, values and PASS/FAIL
+- Pipeline `pl_bronze_to_gold`: Run silver notebook -> Build gold -> Check gold (on success)
+- Script: `sql/gold/04_gold_procedures.sql`
+
+**Results**
+- First pipeline run succeeded end to end: notebook 3m 31s, build gold 13s, check gold 13s
+- All 6 reconciliation checks PASS and logged
+
+**Learned**
+- A pipeline should not just move data, it should prove the data is right before anyone uses it
+- A failing check should stop the pipeline loudly (THROW), not log quietly and carry on
+- Fabric warehouse and Spark both run on UTC, so audit timestamps are 5 hours behind PKT
+- Not scheduling it on purpose: a trial capacity should not burn compute on a timer
