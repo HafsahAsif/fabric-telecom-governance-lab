@@ -126,3 +126,25 @@
 - The pipeline / DQ identity must be mapped to ALL, or RLS makes quality checks fail
 - Admin, Member and Contributor have UNMASK, so masking only protects Viewers and item-level users
 - Masking is not encryption. It complements CLS and RLS
+
+## Day 8 - Lineage, impact analysis, endorsement, classification
+
+**Built**
+- Workspace description and contact set
+- `sm_telecom_gold` endorsed as **Promoted**, with a description; "Make discoverable" turned off for a practice model
+- Deleted a stray empty notebook that was showing up as a false dependency in impact analysis
+- `docs/data_classification.md`: item and column classification, since sensitivity labels are not enabled in the tenant
+
+**Results**
+- Lineage: lh_bronze/lh_silver -> nb_bronze_to_silver -> pl_bronze_to_gold <- wh_gold -> sm_telecom_gold -> rpt_telecom_overview
+- Impact of wh_gold: semantic model, pipeline, report (1 viewer, 2 views)
+- Certified and Master data endorsement greyed out: need a tenant admin to approve certifiers
+- Sensitivity labels: turned off at tenant level
+
+**Learned**
+- Fabric lineage tracks item connections, not reads inside code. lh_silver -> wh_gold is missing because
+  the gold build reads silver in SQL. Purview or a written lineage doc has to fill that gap
+- "Child items" shows direct dependents only; "All downstream items" shows the full blast radius
+- Clutter (empty items) creates false dependencies and makes impact analysis less trustworthy
+- Endorsement tells users which copy is official; certification is a governed process, not a button
+- Without labels, classification must be documented, but a document does not follow the data when it is exported
