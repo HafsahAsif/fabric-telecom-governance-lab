@@ -115,7 +115,7 @@ See [`docs/progress_log.md`](docs/progress_log.md).
 - [x] Day 4: Data pipeline and Dataflow Gen2
 - [x] Day 5: Semantic model and Power BI report
 - [x] Day 6: Workspace roles and item permissions
-- [ ] Day 7: Row, column and object-level security
+- [x] Day 7: Row, column and object-level security
 - [ ] Day 8: Sensitivity labels, endorsement, lineage and impact analysis
 - [ ] Day 9: OneLake security, admin portal, capacity metrics
 - [ ] Day 10: Git integration and deployment pipelines

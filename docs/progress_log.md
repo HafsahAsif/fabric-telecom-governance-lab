@@ -107,3 +107,22 @@
 - Every workspace role, even Viewer, gets SELECT on all warehouse tables. To hide PII, share the item, not the workspace
 - Grant to roles, not people. Roles make access reviews possible
 - The data owner is accountable for PII access; IT only carries it out
+
+## Day 7 - Row-level security and masking
+
+**Built**
+- RLS: access table `dbo.sec_region_access`, predicate `sec.fn_region_filter`, policy `sec.region_policy` on both facts and `dim_subscriber` (`sql/security/03_row_level_security.sql`)
+- Dynamic data masking on `msisdn` and `full_name` (`sql/security/04_dynamic_data_masking.sql`)
+- `docs/data_protection.md`: minimisation, CLS, RLS and masking side by side
+
+**Results**
+- Mapped to North: 22,528 of 110,063 usage rows visible
+- Reconciliation under RLS: 3 FAIL (985 vs 4,799 subscribers, 23,990 vs 117,318 events, 608 vs 2,874 SRs)
+- Mapped to ALL: 6 PASS
+- `sys.masked_columns` shows both masks
+
+**Learned**
+- RLS applies to workspace Admins too
+- The pipeline / DQ identity must be mapped to ALL, or RLS makes quality checks fail
+- Admin, Member and Contributor have UNMASK, so masking only protects Viewers and item-level users
+- Masking is not encryption. It complements CLS and RLS
