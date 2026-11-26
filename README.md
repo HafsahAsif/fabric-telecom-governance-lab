@@ -113,7 +113,7 @@ See [`docs/progress_log.md`](docs/progress_log.md).
 - [x] Day 2: PySpark notebook, silver layer, quarantine pattern
 - [x] Day 3: Warehouse gold layer, star schema
 - [x] Day 4: Data pipeline and Dataflow Gen2
-- [ ] Day 5: Semantic model and Power BI report
+- [x] Day 5: Semantic model and Power BI report
 - [ ] Day 6: Workspace roles and item permissions
 - [ ] Day 7: Row, column and object-level security
 - [ ] Day 8: Sensitivity labels, endorsement, lineage and impact analysis

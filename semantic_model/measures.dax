@@ -1,0 +1,27 @@
+// Semantic model: sm_telecom_gold (Direct Lake on SQL, source wh_gold)
+// Purpose: one governed definition per business metric
+// Author: Hafsah Asif
+
+// fact_usage | Whole number, thousands separator
+// Sum of usage charges in PKR from cleaned CDRs. Excludes quarantined records.
+Total Revenue PKR = SUM(fact_usage[charge_pkr])
+
+// fact_usage | Whole number, thousands separator
+// Distinct subscribers with at least one usage event in the selected period.
+Active Subscribers = DISTINCTCOUNT(fact_usage[subscriber_key])
+
+// fact_usage | Whole number, thousands separator
+// Average revenue per user: Total Revenue PKR / Active Subscribers.
+ARPU PKR = DIVIDE([Total Revenue PKR], [Active Subscribers])
+
+// fact_usage | Percentage, 1 decimal
+// Share of active subscribers whose current status is Churned.
+Churn Rate = DIVIDE(CALCULATE(DISTINCTCOUNT(fact_usage[subscriber_key]), dim_subscriber[status] = "Churned"), [Active Subscribers])
+
+// fact_service_request | Decimal, 1 place
+// Average resolution time in hours, closed service requests only. Clock hours, not business hours.
+Avg MTTR Hours = CALCULATE(AVERAGE(fact_service_request[resolution_hours]), fact_service_request[is_closed] = 1)
+
+// etl_run_log | Percentage, 0 decimals
+// Share of gold reconciliation checks that passed, from etl_run_log.
+DQ Pass Rate = DIVIDE(CALCULATE(COUNTROWS(etl_run_log), etl_run_log[result] = "PASS"), COUNTROWS(etl_run_log))

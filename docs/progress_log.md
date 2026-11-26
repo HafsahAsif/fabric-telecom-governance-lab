@@ -72,3 +72,22 @@
 - A failing check should stop the pipeline loudly (THROW), not log quietly and carry on
 - Fabric warehouse and Spark both run on UTC, so audit timestamps are 5 hours behind PKT
 - Not scheduling it on purpose: a trial capacity should not burn compute on a timer
+
+## Day 5 - Semantic model and report
+
+**Built**
+- Semantic model `sm_telecom_gold` (Direct Lake on SQL) on `wh_gold`, 7 tables, 8 relationships
+- 6 measures, each with a format and a written description: `semantic_model/measures.dax`
+- Report `rpt_telecom_overview`: 6 KPI cards, revenue by region and plan type, MTTR by priority, plan type slicer
+
+**Results**
+- All data: revenue PKR 5M, 4,799 active subscribers, ARPU PKR 944, churn 13.0%, MTTR 48.4h, DQ pass 100%
+- Prepaid only: revenue PKR 2M, ARPU PKR 838
+- MTTR by priority: P1 ~4.5h, P2 ~14h, P3 ~42h, P4 ~97h
+
+**Learned**
+- The semantic model is where "one definition per metric" lives. The description field is the business glossary
+- Direct Lake does not validate relationships against data. It guessed one cardinality backwards
+  because the fact table had fewer rows than its dimension. The Day 3 orphan-key checks are what make the joins trustworthy
+- Facts link to dimensions only. Dimension-to-dimension links create ambiguous paths
+- The "Unknown" region bar is a visible trace of a Day 2 DQ decision (default, don't reject)
