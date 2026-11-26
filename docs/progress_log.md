@@ -91,3 +91,19 @@
   because the fact table had fewer rows than its dimension. The Day 3 orphan-key checks are what make the joins trustworthy
 - Facts link to dimensions only. Dimension-to-dimension links create ambiguous paths
 - The "Unknown" region bar is a visible trace of a Day 2 DQ decision (default, don't reject)
+
+## Day 6 - Access control
+
+**Built**
+- Reviewed workspace roles (Admin, Member, Contributor, Viewer). No one added to the practice workspace
+- SQL roles in `wh_gold`: `rl_report_viewer`, `rl_pii_reader`, `rl_dq_steward` (`sql/security/01_sql_roles.sql`)
+- Column-level security: `rl_report_viewer` gets 9 of 11 `dim_subscriber` columns, no `full_name` or `msisdn`
+- Permission audit query (`sql/security/02_permission_report.sql`) and access model with personas and RACI (`docs/access_model.md`)
+
+**Results**
+- Permission report: 17 grants across 3 roles, no PII columns for the report viewer
+
+**Learned**
+- Every workspace role, even Viewer, gets SELECT on all warehouse tables. To hide PII, share the item, not the workspace
+- Grant to roles, not people. Roles make access reviews possible
+- The data owner is accountable for PII access; IT only carries it out

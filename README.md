@@ -114,7 +114,7 @@ See [`docs/progress_log.md`](docs/progress_log.md).
 - [x] Day 3: Warehouse gold layer, star schema
 - [x] Day 4: Data pipeline and Dataflow Gen2
 - [x] Day 5: Semantic model and Power BI report
-- [ ] Day 6: Workspace roles and item permissions
+- [x] Day 6: Workspace roles and item permissions
 - [ ] Day 7: Row, column and object-level security
 - [ ] Day 8: Sensitivity labels, endorsement, lineage and impact analysis
 - [ ] Day 9: OneLake security, admin portal, capacity metrics
