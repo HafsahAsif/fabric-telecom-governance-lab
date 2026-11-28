@@ -148,3 +148,24 @@
 - Clutter (empty items) creates false dependencies and makes impact analysis less trustworthy
 - Endorsement tells users which copy is official; certification is a governed process, not a button
 - Without labels, classification must be documented, but a document does not follow the data when it is exported
+
+## Day 9 - Operations and audit
+
+**Built**
+- Ops queries on `queryinsights`: query history, PII access audit, top resource consumers (`sql/ops/`)
+- OneLake security role `refdatareader` on lh_bronze: Read on plans and regions only
+- `docs/operations_and_audit.md`
+
+**Results**
+- Monitor hub: pipeline and child notebook succeeded; 2 interactive notebook sessions "Stopped" (timeouts, not failures)
+- PII audit: 7 queries touched msisdn/full_name; 1 human SELECT (5 rows), 2 pipeline reads (4,799 rows), 2 masking changes
+- Slowest: fact table builds (~12s median), orphan check 10.6s
+- DefaultReader grants all 5 tables + raw files to every reader
+- Admin portal: no tenant settings visible as a non-admin
+
+**Learned**
+- Separate service identities from humans in any PII audit
+- Query history lasts 30 days: export it if audits need longer
+- OneLake roles cover every engine; SQL roles only cover SQL
+- New OneLake roles add to DefaultReader; least privilege means narrowing DefaultReader first
+- Raw files in a lakehouse are an easy-to-miss PII exposure
