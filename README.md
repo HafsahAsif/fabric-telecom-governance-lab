@@ -118,7 +118,7 @@ See [`docs/progress_log.md`](docs/progress_log.md).
 - [x] Day 7: Row, column and object-level security
 - [x] Day 8: Sensitivity labels, endorsement, lineage and impact analysis
 - [x] Day 9: OneLake security, admin portal, capacity metrics
-- [ ] Day 10: Git integration and deployment pipelines
+- [x] Day 10: Git integration and deployment pipelines
 - [ ] Month 2: Microsoft Purview scan, classification, glossary, data quality
 
 ---

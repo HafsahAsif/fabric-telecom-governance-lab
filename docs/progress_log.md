@@ -169,3 +169,25 @@
 - OneLake roles cover every engine; SQL roles only cover SQL
 - New OneLake roles add to DefaultReader; least privilege means narrowing DefaultReader first
 - Raw files in a lakehouse are an easy-to-miss PII exposure
+
+## Day 10 - Release management
+
+**Built**
+- Checked Git integration: tenant allows Azure DevOps only (GitHub disabled). Design documented instead
+- Workspace `ws-telecom-test` (Fabric Trial, same capacity) with a "do not edit directly" description
+- Deployment pipeline `dp_telecom`: Development -> Test; deployed all 9 items with a change note
+- Data source rule on the Test semantic model
+- `docs/release_management.md`
+
+**Results**
+- Schema and security objects travelled (8 tables, 2 procedures, 3 roles, 1 RLS policy, 2 masks); data did not (all 0)
+- Endorsement did not travel
+- Test report showed Dev data: Test model bound to Dev warehouse (DQ 88% from Dev's audit log gave it away)
+- Data source rule removed the Dev link, but left the Test model with 0 tables (no rebind)
+
+**Learned**
+- "Successful deployment" says nothing about where items point. Check lineage after every deploy
+- Deployment rules should be set before the first deployment
+- Security as code travels; security data (RLS access rows) must be seeded per stage
+- A failed rebind that cuts the Dev link fails closed - the safer failure
+- Tenant admins decide Git providers, labels and regions; builders work within those limits
